@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<video src="http://localhost:5003/api/files/get?fileId=2" autoplay></video>-->
+<iframe class="frame"></iframe>
+<img src="https://coursework-bucket.s3.amazonaws.com/guidguidguid?AWSAccessKeyId=AKIAYCOOSIWMJGWKEQDU&Expires=1709495414&Signature=ci6ngkzGXPuF%2FTM6AxXg78cab50%3D"/>
+<script>
+    import http from 'k6/http';
+
+    console.log(http)
+    // console.log('start')
+    // let i = 0;
+    // const a = []
+    // while (i <= 99) {
+    //     const p = new Promise((resolve, reject) => {
+    //         fetch("http://localhost:5000/apigateway/songs/get??select=20&skip=0", {
+    //             headers: {Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMiIsIm5iZiI6MTcwOTQxNzA1OSwiZXhwIjoxNzA5NTAzNDU5LCJpYXQiOjE3MDk0MTcwNTl9.vBF2DuyAmKYlmqcDKRVFM4ft-hFvQBJ_5AobMUnarRY"}
+    //         }).then(res => res.json())
+    //             .then(resolve).catch(reject);
+    //     });
+    //     a.push(p);
+    //     ++i;
+    // }
+    //
+    // async function req(p, i) {
+    //     const s = new Date();
+    //     const res = await p;
+    //     console.log(i, res.length, new Date() - s);
+    // }
+    //
+    // const b = a.map((value, index) => req(value, index));
+    // (async function () {
+    //     await Promise.all(b);
+    // })();
+</script>
+</body>
+</html>
