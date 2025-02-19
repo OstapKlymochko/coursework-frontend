@@ -1,0 +1,13 @@
+.header {
+    height: 50px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background: silver;
+}
+
+a {
+    text-decoration: none;
+    color: snow;
+    margin: 10px;
+}
