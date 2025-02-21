@@ -112,11 +112,12 @@ export const SongDetailsTabs = () => {
     const handleCancelEdit = () => {
         setCommentData(p => ({ ...p, id: null, body: '', repliedTo: null }));
     }
-
+    
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant="fullWidth">
+                <Tabs value={value} onChange={handleChange} textColor='secondary'
+                    aria-label="basic tabs example" variant="fullWidth">
                     <Tab label="Track list" {...a11yProps(1)} />
                     <Tab label="Comments" {...a11yProps(2)} />
                 </Tabs>
@@ -139,8 +140,8 @@ export const SongDetailsTabs = () => {
                             placeholder={'Comment...'} />
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Button sx={{ marginLeft: '120' }} disabled={!commentData.id}
-                                onClick={handleCancelEdit}>Cancel</Button>
-                            <Button sx={{ marginLeft: '150' }} type={'submit'}>Comment</Button>
+                                onClick={handleCancelEdit} variant='text'>Cancel</Button>
+                            <Button sx={{ marginLeft: '150' }} type={'submit'} variant='text'>Comment</Button>
                         </Box>
                     </form>
                     {!!commentsListStruct.comments.length && commentsListStruct.comments.map(c =>
@@ -156,7 +157,7 @@ export const SongDetailsTabs = () => {
                         </Box>}
                 </Box>
             </CustomTabPanel>
-            <InfoPopupRedux severity={'error'} content={errors || ''} open={!!errors}
+            <InfoPopupRedux severity={'error'} content={errors ?? ''} open={!!errors}
                 setOpen={statisticsActions.setErrors} />
         </Box>
     );

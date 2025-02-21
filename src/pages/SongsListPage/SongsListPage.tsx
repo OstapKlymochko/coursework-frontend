@@ -10,17 +10,17 @@ export const SongsListPage = () => {
     const { songs, searchResult, searchResultPages, errors, songDetails } = useAppSelector(s => s.songsReducer);
     const [openUploadModal, setOpenUploadModal] = useState(false);
     const [searchPage, setSearchPage] = useState(1);
-    const { user } = useAppSelector(s => s.authReducer);
+    const user = useAppSelector(s => s.authReducer.user);
     const dispatch = useAppDispatch();
     const select = 16;
 
     useEffect(() => {
-        const selectParams = { select, skip: 0 } as ISongsFilterParameters
+        const selectParams = { select, skip: 0 } as ISongsFilterParameters;        
         dispatch(songsActions.getSongsList(selectParams));
         return () => {
             dispatch(songsActions.clearSongs());
         }
-    }, [dispatch]);
+    }, []);
      
     return (
         <>
@@ -47,7 +47,8 @@ export const SongsListPage = () => {
                             <AddCircleIcon sx={{ fontSize: '3rem' }} color={'secondary'} />
                         </IconButton>}
                     <UploadSongModal open={openUploadModal} setOpen={setOpenUploadModal} />
-                </Box>}
+                </Box>
+                }
             <InfoPopupRedux severity={'error'} content={errors ?? ''} open={!!errors} setOpen={songsActions.setErrors} />
         </>
     );

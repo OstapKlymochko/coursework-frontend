@@ -129,13 +129,15 @@ export const Player: FC<IProps> = ({ setNextOrPrevSong }) => {
     const action = isPlaying ? playerActions.pause : playerActions.play;
     const statistics = formatStatisticData(songDetails!);
 
+    const textColor = '#060823';
+
     return (
         <Box sx={{
             position: 'fixed',
             bottom: 0,
             left: 0,
             zIndex: 100,
-        }} width={'100%'} bgcolor={'secondary.light'}>
+        }} width={'100%'} bgcolor={'#F5F5F5'}>
             <CustomSlider value={currListenTime} max={duration} onChange={(_, value) => handleTimeChange(value as number)} color={'secondary'}
                 sx={{ transform: 'translateY(-300%)', p: 0, transition: 'none' }} />
             <Grid container>
@@ -152,12 +154,12 @@ export const Player: FC<IProps> = ({ setNextOrPrevSong }) => {
                     </audio>
                 </Grid>
                 <Grid size={2} display={'flex'} alignItems={'center'}>
-                    <IconButton onClick={() => handleNavigate('prev')}><SkipPreviousIcon
+                    <IconButton sx={{color: textColor}} onClick={() => handleNavigate('prev')}><SkipPreviousIcon
                         fontSize={'large'} /></IconButton>
-                    <IconButton onClick={() => dispatch(action())}><StateIcon fontSize={'large'} /></IconButton>
-                    <IconButton onClick={() => handleNavigate('next')}><SkipNextIcon
+                    <IconButton sx={{color: textColor}} onClick={() => dispatch(action())}><StateIcon fontSize={'large'} /></IconButton>
+                    <IconButton sx={{color: textColor}} onClick={() => handleNavigate('next')}><SkipNextIcon
                         fontSize={'large'} /></IconButton>
-                    <Typography color={'primary.contrastText'}>{formatTime(currListenTime)} / {formatTime(duration)}</Typography>
+                    <Typography color={'black'}>{formatTime(currListenTime)} / {formatTime(duration)}</Typography>
                 </Grid>
                 <Grid size={9} display={'flex'} alignItems={'flex-start'} justifyContent={'center'}>
                     <CardMedia
@@ -169,30 +171,30 @@ export const Player: FC<IProps> = ({ setNextOrPrevSong }) => {
                             mr: '20px'
                         }} />
                     <Box>
-                        <Typography align={'center'} fontSize={'1.5rem'}
+                        <Typography color={'black'} align={'center'} fontSize={'1.5rem'}
                             onClick={handleLoadDetails}
                             className={'pointer'}>{song.title}</Typography>
-                        <Typography align={'center'}
+                        <Typography color={'black'} align={'center'}
                             fontSize={'1rem'}>{song.authorPseudonym || ''}</Typography>
                     </Box>
-                    <IconButton sx={{ ml: 5 }} onClick={() => setOpenSaveModal(true)}>
+                    <IconButton sx={{color: textColor}} onClick={() => setOpenSaveModal(true)}>
                         <PlaylistAddRoundedIcon fontSize={'medium'} />
                     </IconButton>
-                    <IconButton onClick={() => handleReaction('like')}>
+                    <IconButton sx={{color: textColor}} onClick={() => handleReaction('like')}>
                         <LikeIcon fontSize={'medium'} />
-                        <Typography sx={{ ml: 1 }}>{statistics.likes}</Typography>
+                        <Typography color={'black'} sx={{ ml: 1 }}>{statistics.likes}</Typography>
                     </IconButton>
-                    <IconButton onClick={() => handleReaction('dislike')}>
+                    <IconButton sx={{color: textColor}} onClick={() => handleReaction('dislike')}>
                         <DislikeIcon fontSize={'medium'} />
-                        <Typography sx={{ ml: 1 }}>{statistics.dislikes}</Typography>
+                        <Typography color={'black'} sx={{ ml: 1 }}>{statistics.dislikes}</Typography>
                     </IconButton>
-                    <IconButton>
+                    <IconButton sx={{color: textColor}}>
                         <CommentRoundedIcon fontSize={'medium'} />
-                        <Typography sx={{ ml: 1 }}>{statistics.comments}</Typography>
+                        <Typography color={'black'} sx={{ ml: 1 }}>{statistics.comments}</Typography>
                     </IconButton>
                     <Stack spacing={1} direction="row" sx={{ mb: 1, px: 1, width: 150 }} alignItems="center"
                         justifyContent={'flex-end'}>
-                        <IconButton onClick={() => dispatch(playerActions.setVolume(0))}> <VolumeIcon /> </IconButton>
+                        <IconButton sx={{color: textColor}} onClick={() => dispatch(playerActions.setVolume(0))}> <VolumeIcon /> </IconButton>
                         <Slider size={'medium'} value={volume} max={1} step={0.05} sx={{ width: '100%' }} color={'secondary'}
                             onChange={(_, value) => dispatch(playerActions.setVolume(value as number))} />
                     </Stack>

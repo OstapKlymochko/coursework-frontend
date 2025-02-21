@@ -25,7 +25,7 @@ import {
 const getSongsList = createAsyncThunk<ISongsList, ISongsFilterParameters>('songsSlice/getSongsList',
     async ({ select, skip, key }, { rejectWithValue }) => {
         try {
-            const { data } = await songsService.getSongs(select, skip, key || '');
+            const { data } = await songsService.getSongs(select, skip, key ?? '');
             return data;
         } catch (e) {
             const { response } = e as AxiosError<IBasicResponse>;

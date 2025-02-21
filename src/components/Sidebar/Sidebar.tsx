@@ -13,9 +13,8 @@ import { FC, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { Divider, IconButton } from "@mui/material";
+import { Divider, IconButton, useTheme } from "@mui/material";
 import { songsActions } from "../../redux";
-import Button from "@mui/material/Button";
 import { SmallCollectionCard } from "../SmallCollectionCard/SmallCollectionCard";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { CreateCollectionModal } from "../CreateCollectionModal/CreateCollectionModal";
@@ -30,7 +29,7 @@ export const Sidebar: FC = () => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const subValue = songDetails ? 160 : 68;
-   
+
     useEffect(() => {
         dispatch(songsActions.getMyCollections());
         return () => {
@@ -44,52 +43,51 @@ export const Sidebar: FC = () => {
     }
 
     return (
-        <Box sx={{ display: 'flex' }} bgcolor={'primary.main'}>
-            <Box
-                component="nav"
-                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, position: 'relative', zIndex: 90, background: 'transparent' },
-                    }}
-                    open>
-                    <div style={{ marginTop: 2, height: `calc(100vh - ${subValue}px)` }}>
-                        <List>
-                            <ListItem key={uuid()}>
-                                <ListItemButton onClick={handleClickHome}>
-                                    <ListItemIcon>
-                                        <HomeIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={'Home'} />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem key={uuid()}>
-                                <ListItemButton onClick={() => navigate('/library')}>
-                                    <ListItemIcon>
-                                        <LibraryMusicIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={'Library'} />
-                                </ListItemButton>
-                            </ListItem>
-                        </List>
-                        <Divider />
-                        {/* <Button /> */}
-                        <Box display={'flex'} justifyContent={'center'} width={'100%'}>
-                            <IconButton onClick={() => setOpenModal(true)}>
-                                <AddCircleIcon />
-                                <Typography>Add new playlist</Typography>
-                            </IconButton>
-                        </Box>
-                        <List>
-                            {collections.map(i => <ListItem key={uuid()}>
-                                <SmallCollectionCard collection={i} />
-                            </ListItem>)}
-                        </List>
-                    </div>
-                </Drawer>
-            </Box>
+        <Box
+            component="nav"
+            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+            <Drawer
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    overflow: 'hidden',
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, position: 'relative', zIndex: 90, background: 'none' },
+                }}
+                open>
+                <div style={{ marginTop: 2, height: `calc(100vh - ${subValue}px)` }}>
+                    <List>
+                        <ListItem key={uuid()}>
+                            <ListItemButton onClick={handleClickHome}>
+                                <ListItemIcon>
+                                    <HomeIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={'Home'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem key={uuid()}>
+                            <ListItemButton onClick={() => navigate('/library')}>
+                                <ListItemIcon>
+                                    <LibraryMusicIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={'Library'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    {/* <Button /> */}
+                    <Box display={'flex'} justifyContent={'center'} width={'100%'}>
+                        <IconButton onClick={() => setOpenModal(true)}>
+                            <AddCircleIcon />
+                            <Typography>Add new playlist</Typography>
+                        </IconButton>
+                    </Box>
+                    <List>
+                        {collections.map(i => <ListItem key={uuid()}>
+                            <SmallCollectionCard collection={i} />
+                        </ListItem>)}
+                    </List>
+                </div>
+            </Drawer>
             <CreateCollectionModal open={openModal} setOpen={setOpenModal} />
         </Box>
     );

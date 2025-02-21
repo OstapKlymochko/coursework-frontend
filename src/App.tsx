@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import { authActions, playerActions, songsActions, commonActions } from "./redux";
 import { setupInterceptors } from "./configs";
 import { apiService } from "./services";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { applyThemeOptions } from './theme';
 import { Box, CssBaseline } from '@mui/material';
 

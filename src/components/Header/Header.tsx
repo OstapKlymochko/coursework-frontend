@@ -9,32 +9,32 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { authActions, songsActions } from "../../redux";
-import { Autocomplete, TextField } from "@mui/material";
-import { v4 as uuid } from "uuid";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid2";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { authActions, songsActions } from "../../redux";
+import { v4 as uuid } from "uuid";
 import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
+import { ISongsFilterParameters } from '../../interfaces';
 
 export const Header = () => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector(u => u.authReducer);
-    const { searchSuggestions } = useAppSelector(s => s.songsReducer);
+    const user = useAppSelector(u => u.authReducer.user);
+    const searchSuggestions = useAppSelector(s => s.songsReducer.searchSuggestions);
     const [options, setOptions] = useState(searchSuggestions);
+    const [value, setValue] = useState('');
     const { logout } = authActions;
     const navigate = useNavigate();
-    const inputRef = useRef<HTMLInputElement>(null);
+    const { pathname } = useLocation()
 
-    const onSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.value) return;
-        dispatch(songsActions.getSongSearchSuggestions(e.target.value || ''));
-    }
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
+
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -43,12 +43,31 @@ export const Header = () => {
         setOptions(searchSuggestions)
     }, [searchSuggestions])
 
+
+    useEffect(() => {
+        if (value) dispatch(songsActions.getSongSearchSuggestions(value));
+    }, [value]);
+
+    const fetchSongs = (key: string) => {
+        const filter: ISongsFilterParameters = { skip: 0, select: 10 };
+        if (key) filter.key = key;
+        dispatch(songsActions.getSongsList(filter));
+    }
+
+    const handleLogoClick = () => {
+        if (pathname !== '/songs') navigate('/songs');
+        else {
+            setValue('');
+            dispatch(songsActions.clearSearchResult());
+        }
+    }
+
     return (
         <AppBar position="static">
-            <Grid container bgcolor={'secondary.main'}>
+            <Grid container bgcolor={'#505172'}>
                 <Grid size={1}>
-                    <div style={{ display: 'flex' }} className={'pointer'} onClick={() => navigate('/songs')}>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, mt: 2 }} />
+                    <div style={{ display: 'flex' }} className={'pointer'} onClick={handleLogoClick}>
+                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: 'white' }, mr: 1, mt: 2 }} />
                         <Typography
                             variant="h6"
                             noWrap
@@ -60,8 +79,8 @@ export const Header = () => {
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
                                 letterSpacing: '.3rem',
-                                color: 'inherit',
                                 textDecoration: 'none',
+                                color: 'white'
                             }}>
                             LOGO
                         </Typography>
@@ -74,41 +93,19 @@ export const Header = () => {
                                 <Autocomplete
                                     freeSolo
                                     id="free-solo-2-demo"
-                                    // disableClearable
-                                    options={inputRef?.current?.value !== '' ? options : []}
-                                    renderOption={(props, option) => <li {...props}
-                                        onClick={_ => {
-                                            dispatch(songsActions.getSongsList({
-                                                skip: 0,
-                                                select: 10,
-                                                key: option
-                                            }));
-                                            inputRef.current!.value = option;
-                                        }}
-                                        key={uuid()}>{option}</li>}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Search input"
-                                            InputProps={{
-                                                ...params.InputProps,
-                                                type: 'search',
-                                            }}
-                                            inputRef={inputRef}
-                                            onInput={onSearchInput}
-                                            onKeyDown={e => {
-                                                //@ts-ignore
-                                                if (e.code === 'Enter' && !!e.target.value) {
-                                                    dispatch(songsActions.getSongsList({
-                                                        skip: 0,
-                                                        select: 10,
-                                                        //@ts-ignore
-                                                        key: e.target.value
-                                                    }))
-                                                }
-                                            }}
-                                        />
-                                    )} />
+                                    options={value !== '' ? options : []} renderOption={(props, option) => (
+                                        <Box component={'li'} {...props} key={uuid()} onClick={_ => fetchSongs(option)}>
+                                            {option}
+                                        </Box>
+                                    )}
+                                    renderInput={params => <TextField
+                                        {...params}
+                                        value={value}
+                                        label="Search input"
+                                        onInput={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
+                                        onKeyDown={(e) => { if (e.code === 'Enter' && !!value) fetchSongs(value); }}
+                                    />
+                                    } />
                             </Box>
                             <Box>
                                 <ThemeSwitcher />
@@ -117,7 +114,7 @@ export const Header = () => {
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, justifyContent: 'flex-start' }}>
                                         <Avatar alt={user?.firstName ? user.firstName[0] : 'u'}
-                                            src={user?.avatarUrl || ''} />
+                                            src={user?.avatarUrl ?? ''} />
                                     </IconButton>
                                 </Tooltip>
                                 <Menu

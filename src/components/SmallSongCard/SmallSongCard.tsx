@@ -1,10 +1,9 @@
 import React, { FC, useState } from 'react';
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks";
 import { IconButton, Box, Card, CardContent, CardMedia, Typography, CircularProgress } from "@mui/material";
 import PauseIcon from "@mui/icons-material/Pause";
 import { PlayArrow } from "@mui/icons-material";
 import { ISong } from "../../interfaces";
-import { playerActions, songsActions } from "../../redux";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
@@ -17,9 +16,10 @@ export const SmallSongCard: FC<IProps> = ({ song }) => {
     const { loading, songDetails } = useAppSelector(s => s.songsReducer);
     const navigate = useNavigate();
 
-    const StateIcon = isPlaying && !!songDetails && song.id === songDetails.id ? PauseIcon : PlayArrow
+    const StateIcon = isPlaying && !!songDetails && song.id === songDetails.id ? PauseIcon : PlayArrow;
+    
     return (
-        <div onMouseOver={() => setIsMouseOver(true)} onMouseLeave={() => setIsMouseOver(false)} style={{ marginTop: 5 }}>
+        <Box onMouseOver={() => setIsMouseOver(true)} onMouseLeave={() => setIsMouseOver(false)} style={{ marginTop: 5 }}>
             <Card sx={{ display: 'flex' }}>
                 <Box sx={{ position: 'relative' }} >
                     {isMouseOver &&
@@ -59,6 +59,6 @@ export const SmallSongCard: FC<IProps> = ({ song }) => {
                     </CardContent>
                 </Box>
             </Card>
-        </div>
+        </Box>
     );
 };

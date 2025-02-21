@@ -49,24 +49,14 @@ export const SongCard: FC<IProps> = ({ song }) => {
                                 }}>
                                     <CircularProgress />
                                 </IconButton>}
-                            {/*<CardMedia*/}
-                            {/*    component="img"*/}
-                            {/*    sx={{*/}
-                            {/*        maxWidth: 151,*/}
-                            {/*        boxSizing: 'border-box', filter: isMouseOver ? 'brightness(50%)' : '',*/}
-                            {/*        objectFit: 'contain'*/}
-                            {/*    }}*/}
-                            {/*    image={song.logoUrl}*/}
-                            {/*    height={150}*/}
-                            {/*    alt="Song logo"*/}
-                            {/*    loading={'lazy'}/>*/}
                             <div style={{
                                 backgroundImage: `url(${song.logoUrl})`,
                                 width: 150,
                                 height: 150,
                                 backgroundSize: '100% 100%',
                                 filter: isMouseOver ? 'brightness(50%)' : ''
-                            }}></div>
+                            }}
+                            ></div>
                         </Box>
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>

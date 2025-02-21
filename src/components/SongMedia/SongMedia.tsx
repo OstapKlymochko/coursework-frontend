@@ -2,7 +2,8 @@ import React, { FC, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import ReactPlayer from "react-player";
 import { ISongDetails } from "../../interfaces";
-import { songsActions as playerActions } from '../../redux';
+import { songsActions, playerActions } from '../../redux';
+import Box from '@mui/material/Box';
 
 interface IProps {
     song: ISongDetails;
@@ -15,7 +16,7 @@ export const SongMedia: FC<IProps> = ({ song }) => {
 
     useEffect(() => {
         if (song.videoClipUrl) {
-            dispatch(playerActions.setSong({ ...song, songUrl: song.videoClipUrl }));
+            dispatch(songsActions.setSong({ ...song, songUrl: song.videoClipUrl }));
         }
     }, [song.id]);
 
@@ -30,14 +31,24 @@ export const SongMedia: FC<IProps> = ({ song }) => {
     }, [currListenTime]);
 
     return (
-        <ReactPlayer
-            ref={videoPlayerRef}
-            width={'100%'}
-            height={'80%'}
-            url={song.videoClipUrl ?? song.songUrl}
-            playing={isPlaying}
-            muted={true}
-        />
-
+        <Box width={'90%'} height={'90%'} onClick={() => dispatch(playerActions.toggleIsPlaying())}>
+            {song.videoClipUrl ?
+                <ReactPlayer
+                    ref={videoPlayerRef}
+                    width={'100%'}
+                    height={'100%'}
+                    url={song.videoClipUrl ?? song.songUrl}
+                    playing={isPlaying}
+                    muted={true}
+                /> :
+                <Box sx={{
+                    backgroundImage: `url(${song.logoUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }} width={'100%'}
+                    height={'100%'}>
+                </Box>
+            }
+        </Box>
     );
 };

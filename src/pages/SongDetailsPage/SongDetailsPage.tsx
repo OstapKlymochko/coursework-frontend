@@ -8,7 +8,8 @@ import Grid from "@mui/material/Grid2";
 
 export const SongDetailsPage = () => {
     const { id } = useParams();
-    const { songDetails, errors } = useAppSelector(s => s.songsReducer);
+    const songDetails = useAppSelector(s => s.songsReducer.songDetails);
+    const errors = useAppSelector(s => s.songsReducer.errors);
     const { currSongId, commentsListStruct } = useAppSelector(s => s.statisticsReducer);
 
     const dispatch = useAppDispatch()
@@ -47,3 +48,4 @@ export const SongDetailsPage = () => {
         </animated.div>
     ));
 };
+

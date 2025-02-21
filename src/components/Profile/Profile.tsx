@@ -10,6 +10,8 @@ import { IUserData } from "../../interfaces";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { authActions } from "../../redux";
 import { InfoPopupRedux } from "../InfoPopupRedux/InfoPopupRedux";
+import { ThemedTextField } from '../ThemedTextField/ThemedTextField';
+import { useTheme } from '@mui/material';
 
 export const Profile: FC = () => {
     const { errors, user, responseMessage } = useAppSelector(s => s.authReducer);
@@ -26,9 +28,6 @@ export const Profile: FC = () => {
             });
         }
     }, [dispatch, updateData, getMyData, user])
-
-
-    console.log(user);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => setUpdateData(data => {
         if (data) {
@@ -62,12 +61,14 @@ export const Profile: FC = () => {
         if (!!user?.avatarUrl && !avatar) setCurrFile(user?.avatarUrl);
     }, [user?.avatarUrl, avatar])
 
+    const { palette: { primary } } = useTheme();
+
     return (
         <Container maxWidth={"lg"} sx={{ padding: '32px 8px' }}>
             <Grid container
                 display={'flex'}
                 justifyContent={'center'}
-                style={{ background: '#1975d1', padding: '50px' }}>
+                style={{ padding: '50px' }}>
                 <Grid>
                     <Box
                         display={'flex'}
@@ -88,9 +89,9 @@ export const Profile: FC = () => {
                 </Grid>
                 <Grid size={12} justifyContent={'center'} display={'flex'} mt={'10px'}>
                     <Button component={'h2'} sx={{
-                        color: 'white', textAlign: 'center',
+                        color: primary.contrastText, textAlign: 'center',
                         textTransform: 'none', fontSize: '2 rem'
-                    }} variant={'text'} startIcon={<CameraAltIcon fontSize={'large'} sx={{ color: 'white' }} />}
+                    }} variant={'text'} startIcon={<CameraAltIcon fontSize={'large'} sx={{ color: primary.contrastText }} />}
                         //@ts-ignore
                         onClick={() => fileInputRef.current.click()}>
                         Add an avatar
@@ -102,53 +103,63 @@ export const Profile: FC = () => {
             <Grid container justifyContent={'center'}>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     {updateData && <>
-                        <Box>
-                            <TextField
-                                margin="normal"
-                                type={'text'}
-                                autoFocus
-                                variant={'standard'}
-                                label={'First name'}
-                                name={'firstName'}
-                                onSubmit={handleSubmit}
-                                value={updateData.firstName}
-                                onChange={handleChange}
-                                sx={{ m: 2 }} />
-                            <TextField
-                                margin="normal"
-                                type={'text'}
-                                autoFocus
-                                variant={'standard'}
-                                label={'Last name'}
-                                name={'lastName'}
-                                onSubmit={handleSubmit}
-                                onChange={handleChange}
-                                value={updateData.lastName}
-                                sx={{ m: 2 }} />
+                        <Box display={'flex'}>
+                            <Box boxSizing={'border-box'} padding={'0 20px'}>
+                                <ThemedTextField
+                                    margin="normal"
+                                    type={'text'}
+                                    autoFocus
+                                    variant={'standard'}
+                                    label={'First name'}
+                                    name={'firstName'}
+                                    onSubmit={handleSubmit}
+                                    value={updateData.firstName}
+                                    onChange={handleChange}
+                                    sx={{ m: 2 }} />
+                            </Box>
+                            <Box boxSizing={'border-box'} padding={'0 20px'}>
+                                <ThemedTextField
+                                    margin="normal"
+                                    type={'text'}
+                                    autoFocus
+                                    variant={'standard'}
+                                    label={'Last name'}
+                                    name={'lastName'}
+                                    onSubmit={handleSubmit}
+                                    onChange={handleChange}
+                                    value={updateData.lastName}
+                                    sx={{ m: 2 }} />
+                            </Box>
                         </Box>
-                        <Box>
-                            <TextField
-                                margin="normal"
-                                type={'email'}
-                                autoFocus
-                                variant={'standard'}
-                                label={'Email'}
-                                name={'email'}
-                                onSubmit={handleSubmit}
-                                onChange={handleChange}
-                                value={updateData.email}
-                                sx={{ m: 2 }} />
-                            <TextField
-                                margin="normal"
-                                type={'text'}
-                                autoFocus
-                                variant={'standard'}
-                                label={'Username'}
-                                name={'userName'}
-                                onSubmit={handleSubmit}
-                                onChange={handleChange}
-                                value={updateData.userName}
-                                sx={{ m: 2 }} />
+                        <Box display={'flex'}>
+                            <Box boxSizing={'border-box'} padding={'0 20px'}>
+
+                                <ThemedTextField
+                                    margin="normal"
+                                    type={'email'}
+                                    autoFocus
+                                    variant={'standard'}
+                                    label={'Email'}
+                                    name={'email'}
+                                    onSubmit={handleSubmit}
+                                    onChange={handleChange}
+                                    value={updateData.email}
+                                    sx={{ m: 2 }} />
+                            </Box>
+                            <Box boxSizing={'border-box'} padding={'0 20px'}>
+
+                                <ThemedTextField
+                                    margin="normal"
+                                    type={'text'}
+                                    autoFocus
+                                    variant={'standard'}
+                                    label={'Username'}
+                                    name={'userName'}
+                                    onSubmit={handleSubmit}
+                                    onChange={handleChange}
+                                    value={updateData.userName}
+                                    sx={{ m: 2 }} />
+                            </Box>
                         </Box>
                     </>}
                     <InfoAlert severity={'error'} content={errors!} />

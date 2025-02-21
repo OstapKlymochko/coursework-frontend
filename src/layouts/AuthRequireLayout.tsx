@@ -51,7 +51,7 @@ export const AuthRequireLayout = () => {
                 </Grid>
                 {songDetails && <Player setNextOrPrevSong={setNextOrPrevSong} />}
             </Grid>
-            <InfoPopupRedux severity={'error'} content={errors ?? ''} open={!!errors} setOpen={songsActions.setErrors} />
+            <InfoPopupRedux severity={'error'} content={errors ?? ''} open={!!errors} setOpen={songsActions.setErrors}/>
             <InfoPopupRedux severity={'success'} content={responseMessage ?? ''} open={!!responseMessage}
                 setOpen={songsActions.setResponseMessage} />
         </Box>

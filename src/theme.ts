@@ -51,6 +51,9 @@ export const applyThemeOptions: (mode: PaletteMode) => ThemeOptions = (mode) => 
                         background: theme.secondary.main
                         // root: {
                         // }
+                    },
+                    text: {
+                        color: theme.primary.contrastText,
                     }
                 }
             },

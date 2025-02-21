@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { Portal } from '@mui/material';
 
 interface IProps {
     severity: "success" | "info" | "warning" | "error" | undefined;
@@ -15,7 +16,7 @@ export const InfoPopup: FC<IProps> = ({severity, content, open, setOpen}) => {
         setOpen(null);
     };
     return (
-        <div>
+        <Portal>
             <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
                 <Alert
                     onClose={handleClose}
@@ -25,6 +26,6 @@ export const InfoPopup: FC<IProps> = ({severity, content, open, setOpen}) => {
                     {content}
                 </Alert>
             </Snackbar>
-        </div>
+        </Portal>
     );
 }
